@@ -1,8 +1,8 @@
 {
   "name": "validate-form-7",
-  "author": "Cam Song",
-  "version": "0.2.0",
-  "description": "A Boilerplate for creating NPM packages using Babel, ESLint, Mocha and Chai",
+  "author": "Ahsan Bilal",
+  "version": "0.2.1",
+  "description": "A comprehensive data validation package that helps to minimize the amount of code you will write",
   "main": "build/index.js",
   "keywords": [
     "es6",
@@ -35,11 +35,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/camsong/babel-npm-boilerplate.git"
+    "url": "https://github.com/react-ninja/validate-form-7"
   },
   "bugs": {
-    "url": "https://github.com/camsong/babel-npm-boilerplate/issues"
+    "url": "https://github.com/react-ninja/validate-form-7/issues"
   },
-  "homepage": "https://github.com/camsong/babel-npm-boilerplate#readme",
+  "homepage": "https://github.com/react-ninja/validate-form-7",
   "license": "MIT"
 }

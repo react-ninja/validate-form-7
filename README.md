@@ -1,33 +1,50 @@
-# babel-npm-boilerplate [![Build Status](https://travis-ci.org/camsong/babel-npm-boilerplate.svg)](https://travis-ci.org/camsong/babel-npm-boilerplate) [![npm version](https://badge.fury.io/js/babel-npm-boilerplate.svg)](http://badge.fury.io/js/babel-npm-boilerplate)
-
-A Boilerplate for creating NPM packages using Babel, ESLint, Mocha and Chai
+Validate Form 7 provides a comprehensive data validation that helps minimize the amount of code you’ll write.
 
 
-## What's inside
-
-Minimal structure for a npm package source.
-
-* Babel 6
-* Mocha
-* ESLint
-* Isparta
-
-## Installation
-
-Clone this repo or download using `npm`
-
+#### Example
 ```
-npm install babel-npm-boilerplate --save
+const data = {
+      _id: '5bf56a5fc384b83ef6e11071',
+      _idx: '5bf56a5fc384b83ef6e11071',
+    };
+const config = {
+      _id: { rules: 'required', title: 'ID' },
+      _idx: { rules: 'required|matches:_id', title: 'IDX' },
+    };
+const resp = validation(data, config);
 ```
 
-## Usage
+### Config Reference
 
-* `npm run test` to run tests
-* `npm run test-cov` to generate test coverage
-* `npm run build` to transform es6/es7 to es5 by Babel
-* `npm run clean` to clean `build/` directory
-* `npm run lint` to lint js using ESLint in Airbnb's Javascript style
+|Attribute|Required|Description|Example|
+|--- |--- |--- |--- |
+|**rules**|Yes|You can set as many validation rules as you need for a given field in rules attribute |rules: 'required|minLength:4'|
+|**title**|No|A “human” name for this field, which will be inserted into the error message. For example, if your field is named “user” you might give it a human name of “Username”.|title: 'FIELD NAME'|
 
-## Liscense
 
-MIT
+### Rule Reference
+The following is a list of all the native rules that are available to use:
+
+|Rule|Parameter|Description|Example|
+|--- |--- |--- |--- |
+|**required**|No|Returns FALSE if the form element is empty.||
+|**matches**|Yes|Returns FALSE if the form element does not match the one in the parameter.|matches[form_item]|
+|**differs**|Yes|Returns FALSE if the form element does not differ from the one in the parameter.|differs:form_item|
+|**minLength**|Yes|Returns FALSE if the form element is shorter than the parameter value.|minLength:3|
+|**maxLength**|Yes|Returns FALSE if the form element is longer than the parameter value.|maxLength:12|
+|**exactLength**|Yes|Returns FALSE if the form element is not exactly the parameter value.|exactLength:8|
+|**greaterThan**|Yes|Returns FALSE if the form element is less than or equal to the parameter value or not numeric.|greaterThan:8|
+|**greaterThanEqualTo**|Yes|Returns FALSE if the form element is less than the parameter value, or not numeric.|greaterThanEqualTo:8|
+|**lessThan**|Yes|Returns FALSE if the form element is greater than or equal to the parameter value or not numeric.|lessThan:8|
+|**lessThanEqualTo**|Yes|Returns FALSE if the form element is greater than the parameter value, or not numeric.|lessThanEqualTo:8|
+|**inList**|Yes|Returns FALSE if the form element is not within a predetermined list.|inList:red,blue,green|
+|**alpha**|No|Returns FALSE if the form element contains anything other than alphabetical characters.||
+|**alphaNumeric**|No|Returns FALSE if the form element contains anything other than alpha-numeric characters.||
+|**alphaNumericSpaces**|No|Returns FALSE if the form element contains anything other than alpha-numeric characters or spaces. Should be used after trim to avoid spaces at the beginning or end.||
+|**alphaDash**|No|Returns FALSE if the form element contains anything other than alpha-numeric characters, underscores or dashes.||
+|**numeric**|No|Returns FALSE if the form element contains anything other than numeric characters.||
+|**integer**|No|Returns FALSE if the form element contains anything other than an integer.||
+|**decimal**|No|Returns FALSE if the form element contains anything other than a decimal number.||
+|**validUrl**|No|Returns FALSE if the form element does not contain a valid URL.||
+|**validEmail**|No|Returns FALSE if the form element does not contain a valid email address.||
+|**validIP**|Yes|Returns FALSE if the supplied IP address is not valid. Accepts an optional parameter of ‘ipv4’ to specify an IP format.||
