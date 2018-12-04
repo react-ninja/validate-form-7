@@ -1,16 +1,3 @@
-class Person {
-  constructor(name, age) {
-    this.name = name;
-    this.age = age;
-  }
+import { validate } from './lib/Validation';
 
-  getName() {
-    return this.name;
-  }
-
-  getAge() {
-    return this.age;
-  }
-}
-
-export default Person;
+export default validate;
