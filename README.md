@@ -22,13 +22,60 @@ const resp = validation(data, config);
 |**title**|No|A “human” name for this field, which will be inserted into the error message. For example, if your field is named “user” you might give it a human name of “Username”.|title: 'FIELD NAME'|
 
 
+
+
+### Validation Response
+
+##### errors
+``Default Value: Empty Object {}``
+errors attribute provides the object of invalid field(s) and each field contains the error message(s).
+##### errorsList
+``Default Value: Empty Array []``
+errorsList attribute provides the array of error messages of all invalid field(s).
+
+
+|Attribute|Required|Description|Example|
+|--- |--- |--- |--- |
+|**rules**|Yes|You can set as many validation rules as you need for a given field in rules attribute |rules: 'required|minLength:4'|
+|**title**|No|A “human” name for this field, which will be inserted into the error message. For example, if your field is named “user” you might give it a human name of “Username”.|title: 'FIELD NAME'|
+
+
+##### Example
+```
+const data = {
+      ryan: 'this is ryan',
+      markhor: 'this is markhor',
+      markus: 'this is markus',
+    };
+    const config = {
+      ryan: { rules: 'required|minLength:4', title: 'Markus' },
+      markhor: { rules: 'required|minLength:40', title: 'Markus' },
+      markus: { rules: 'required|maxLength:4', title: 'Markus' },
+    };
+    const resp = validation(data, config);
+    console.log(resp);
+```
+##### Response
+
+```
+{ errorsList:
+   [ 'Markus should have min length of 40 characters', 'Markus should have max length of 4 characters' ],
+
+  errors:
+   { markhor: [ 'Markus should have min length of 40 characters' ],
+     markus: [ 'Markus should have max length of 4 characters' ] },
+     }
+```
+
+
+
 ### Rule Reference
 The following is a list of all the native rules that are available to use:
 
 |Rule|Parameter|Description|Example|
 |--- |--- |--- |--- |
 |**required**|No|Returns FALSE if the form element is empty.||
-|**matches**|Yes|Returns FALSE if the form element does not match the one in the parameter.|matches[form_item]|
+|**matches**|Yes|Returns FALSE if the form element does not match the one in the parameter.|matches:form_item|
 |**differs**|Yes|Returns FALSE if the form element does not differ from the one in the parameter.|differs:form_item|
 |**minLength**|Yes|Returns FALSE if the form element is shorter than the parameter value.|minLength:3|
 |**maxLength**|Yes|Returns FALSE if the form element is longer than the parameter value.|maxLength:12|
