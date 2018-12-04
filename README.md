@@ -36,7 +36,7 @@ errorsList attribute provides the array of error messages of all invalid field(s
 
 |Attribute|Required|Description|Example|
 |--- |--- |--- |--- |
-|**rules**|Yes|You can set as many validation rules as you need for a given field in rules attribute |rules: 'required|minLength:4'|
+|**rules**|Yes|You can set as many validation rules as you need for a given field in rules attribute. Validation rules, as a string list separated by a pipe \"\|" |rules: 'required|minLength:4'|
 |**title**|No|A “human” name for this field, which will be inserted into the error message. For example, if your field is named “user” you might give it a human name of “Username”.|title: 'FIELD NAME'|
 
 
@@ -58,13 +58,15 @@ const data = {
 ##### Response
 
 ```
-{ errorsList:
+{
+  errorsList:
    [ 'Markus should have min length of 40 characters', 'Markus should have max length of 4 characters' ],
 
   errors:
    { markhor: [ 'Markus should have min length of 40 characters' ],
      markus: [ 'Markus should have max length of 4 characters' ] },
      }
+}
 ```
 
 
