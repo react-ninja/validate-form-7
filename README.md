@@ -48,8 +48,8 @@ const data = {
       markus: 'this is markus',
     };
     const config = {
-      ryan: { rules: 'required|minLength:4', title: 'Markus' },
-      markhor: { rules: 'required|minLength:40', title: 'Markus' },
+      ryan: { rules: 'required|minLength:4', title: 'Ryan' },
+      markhor: { rules: 'required|minLength:40', title: 'Markhor' },
       markus: { rules: 'required|maxLength:4', title: 'Markus' },
     };
     const resp = validation(data, config);
@@ -60,12 +60,15 @@ const data = {
 ```
 {
   errorsList:
-   [ 'Markus should have min length of 40 characters', 'Markus should have max length of 4 characters' ],
-
+   [
+    'The Markhor field must be at least 40 characters in length.',
+    'The Markus field cannot exceed 4 characters in length.'
+    ],
   errors:
-   { markhor: [ 'Markus should have min length of 40 characters' ],
-     markus: [ 'Markus should have max length of 4 characters' ] },
-     }
+   {
+     markhor: [ 'The Markhor field must be at least 40 characters in length.' ],
+     markus: [ 'The Markus field cannot exceed 4 characters in length.' ],
+   }
 }
 ```
 
