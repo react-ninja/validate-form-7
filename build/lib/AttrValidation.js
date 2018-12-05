@@ -24,75 +24,77 @@ var AttributeValidation = function AttributeValidation() {
   this.isRequired = function () {
     _this.logValidation('isRequired');
     if (typeof _this.data === 'undefined') {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
-  this.isMatches = function () {
-    var matchKey = _this.details;
-    if (matchKey && (_lodash2.default.isUndefined(_this.payloadData[matchKey]) || _this.payloadData[matchKey] !== _this.data)) {
-      _this.setErrorMessage(_this.ruleName);
+  this.isMatches = function (fieldKey) {
+    if (fieldKey && (_lodash2.default.isUndefined(_this.payloadData[fieldKey]) || _this.payloadData[fieldKey] !== _this.data)) {
+      var fieldName = '';
+      if (_this.payloadConfig[fieldKey]) {
+        fieldName = _this.payloadConfig[fieldKey].title || fieldKey;
+      }
+      _this.setErrorMessage(_this.ruleName, _this.title, fieldName);
     }
   };
 
-  this.isDiffers = function () {
-    var matchKey = _this.details;
-    if (matchKey && (_lodash2.default.isUndefined(_this.payloadData[matchKey]) || _this.payloadData[matchKey] === _this.data)) {
-      _this.setErrorMessage(_this.ruleName);
+  this.isDiffers = function (fieldKey) {
+    if (fieldKey && (_lodash2.default.isUndefined(_this.payloadData[fieldKey]) || _this.payloadData[fieldKey] === _this.data)) {
+      var fieldName = '';
+      if (_this.payloadConfig[fieldKey]) {
+        fieldName = _this.payloadConfig[fieldKey].title || fieldKey;
+      }
+      _this.setErrorMessage(_this.ruleName, _this.title, fieldName);
     }
   };
 
-  this.isMinLength = function () {
-    var length = parseInt(_this.details);
-    if (!(_lodash2.default.isString(_this.data) && _this.data.length >= length)) {
-      _this.setErrorMessage(_this.ruleName);
+  this.isMinLength = function (minLength) {
+    var length = parseInt(minLength);
+    if (!(_lodash2.default.toString(_this.data).length >= length)) {
+      _this.setErrorMessage(_this.ruleName, _this.title, minLength);
     }
   };
 
-  this.isMaxLength = function () {
-    var length = parseInt(_this.details);
-    if (!(_lodash2.default.isString(_this.data) && _this.data.length <= length)) {
-      _this.setErrorMessage(_this.ruleName);
+  this.isMaxLength = function (maxLength) {
+    var length = parseInt(maxLength);
+    if (!(_lodash2.default.toString(_this.data).length <= length)) {
+      _this.setErrorMessage(_this.ruleName, _this.title, maxLength);
     }
   };
 
-  this.isExactLength = function () {
-    var length = parseInt(_this.details);
-    if (!(_lodash2.default.isString(_this.data) && _this.data.length === length)) {
-      _this.setErrorMessage(_this.ruleName);
+  this.isExactLength = function (exactLength) {
+    var length = parseInt(exactLength);
+    if (!(_lodash2.default.toString(_this.data).length === length)) {
+      _this.setErrorMessage(_this.ruleName, _this.title, exactLength);
     }
   };
 
-  this.isGreaterThan = function () {
-    var value = parseInt(_this.details);
-    if (!(_lodash2.default.isNumber(_this.data) && _this.data > value)) {
-      _this.setErrorMessage(_this.ruleName);
+  this.isGreaterThan = function (value) {
+    if (!(_lodash2.default.isNumber(_this.data) && _this.data > parseInt(value))) {
+      _this.setErrorMessage(_this.ruleName, _this.title, value);
     }
   };
 
-  this.isGreaterThanEqualTo = function () {
-    var value = parseInt(_this.details);
-    if (!(_lodash2.default.isNumber(_this.data) && _this.data >= value)) {
-      _this.setErrorMessage(_this.ruleName);
+  this.isGreaterThanEqualTo = function (value) {
+    if (!(_lodash2.default.isNumber(_this.data) && _this.data >= parseInt(value))) {
+      _this.setErrorMessage(_this.ruleName, _this.title, value);
     }
   };
 
-  this.isLessThan = function () {
-    var value = parseInt(_this.details);
-    if (!(_lodash2.default.isNumber(_this.data) && _this.data < value)) {
-      _this.setErrorMessage(_this.ruleName);
+  this.isLessThan = function (value) {
+    if (!(_lodash2.default.isNumber(_this.data) && _this.data < parseInt(value))) {
+      _this.setErrorMessage(_this.ruleName, _this.title, value);
     }
   };
 
-  this.isLessThanEqualTo = function () {
-    var value = parseInt(_this.details);
-    if (!(_lodash2.default.isNumber(_this.data) && _this.data <= value)) {
-      _this.setErrorMessage(_this.ruleName);
+  this.isLessThanEqualTo = function (value) {
+    if (!(_lodash2.default.isNumber(_this.data) && _this.data <= parseInt(value))) {
+      _this.setErrorMessage(_this.ruleName, _this.title, value);
     }
   };
 
-  this.isInList = function () {
-    var values = _lodash2.default.split(_this.details, ',');
+  this.isInList = function (items) {
+    var values = _lodash2.default.split(items, ',');
     if (_lodash2.default.isNumber(_this.data)) {
       _lodash2.default.map(values, function (val, key) {
         values[key] = _lodash2.default.toNumber(val);
@@ -100,7 +102,7 @@ var AttributeValidation = function AttributeValidation() {
       values = _lodash2.default.compact(values);
     }
     if (!_lodash2.default.includes(values, _this.data)) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title, items);
     }
   };
 
@@ -108,7 +110,7 @@ var AttributeValidation = function AttributeValidation() {
     var regEx = /^\s*([a-zA-Z]+)\s*$/i;
     var isValid = regEx.test(_this.data);
     if (!isValid) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
@@ -116,7 +118,7 @@ var AttributeValidation = function AttributeValidation() {
     var regEx = /^\s*([0-9a-zA-Z]+)\s*$/i;
     var isValid = regEx.test(_this.data);
     if (!isValid) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
@@ -124,7 +126,7 @@ var AttributeValidation = function AttributeValidation() {
     var regEx = /^\s*([0-9a-zA-Z\s]+)\s*$/i;
     var isValid = regEx.test(_this.data);
     if (!isValid) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
@@ -132,54 +134,54 @@ var AttributeValidation = function AttributeValidation() {
     var regEx = /^\s*([0-9a-zA-Z-_]+)\s*$/i;
     var isValid = regEx.test(_this.data);
     if (!isValid) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
   this.isNumeric = function () {
     var data = _lodash2.default.toNumber(_this.data);
     if (_lodash2.default.isNaN(data)) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
   this.isInteger = function () {
     if (!_lodash2.default.isInteger(_this.data)) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
   this.isDecimal = function () {
     if (!(_lodash2.default.isNumber(_this.data) && _this.data !== Math.floor(_this.data))) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
   this.isValidURL = function () {
     var regexp = /((http|https):\/\/)?[A-Za-z0-9\.-]{3,}\.[A-Za-z]{2}/;
     if (!(_this.data.indexOf(' ') < 0 && regexp.test(_this.data))) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
   this.isValidEmail = function () {
     var regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!regexp.test(_this.data)) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
   this.isValidIP = function () {
     var regexp = /^(?:(?:2[0-4]\d|25[0-5]|1\d{2}|[1-9]?\d)\.){3}(?:2[0-4]\d|25[0-5]|1\d{2}|[1-9]?\d)$/;
     if (!regexp.test(_this.data)) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
   this.isValidBase64 = function () {
     var regexp = /^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
     if (!regexp.test(_this.data)) {
-      _this.setErrorMessage(_this.ruleName);
+      _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
 
@@ -195,6 +197,10 @@ var AttributeValidation = function AttributeValidation() {
     _this.payloadData = data;
   };
 
+  this.setPayloadConfig = function (config) {
+    _this.payloadConfig = config;
+  };
+
   this.setRule = function (rules) {
     _this.rules = _lodash2.default.split(rules, '|');
   };
@@ -204,11 +210,15 @@ var AttributeValidation = function AttributeValidation() {
   };
 
   this.setErrorMessage = function (rule) {
+    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    var attribute = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+
     var config = _lodash2.default.find(_config.CONFIG, function (val) {
       return rule === val.name;
     });
     if (config) {
-      var msg = _lodash2.default.replace(config.msg, _config.FIELD_SHORTCODE, _this.title);
+      var msg = _lodash2.default.replace(config.msg, _config.FIELD_SHORTCODE, title);
+      msg = _lodash2.default.replace(msg, _config.FIELD_SHORTCODE_2, attribute);
       _this.errors.push(msg);
     }
   };
@@ -218,50 +228,50 @@ var AttributeValidation = function AttributeValidation() {
       var isValid = true;
       var config = _lodash2.default.split(rule, ':');
       _this.ruleName = config[0];
-      _this.details = config[1] || null;
+      var val = config[1] || null;
       switch (_this.ruleName) {
         case _config.CONFIG.REQUIRED.name:
           isValid = _this.isRequired();
           break;
 
         case _config.CONFIG.MATCHES.name:
-          isValid = _this.isMatches();
+          isValid = _this.isMatches(val);
           break;
 
         case _config.CONFIG.DIFFERS.name:
-          isValid = _this.isDiffers();
+          isValid = _this.isDiffers(val);
           break;
 
         case _config.CONFIG.MIN_LENGTH.name:
-          isValid = _this.isMinLength();
+          isValid = _this.isMinLength(val);
           break;
 
         case _config.CONFIG.MAX_LENGTH.name:
-          isValid = _this.isMaxLength();
+          isValid = _this.isMaxLength(val);
           break;
 
         case _config.CONFIG.EXACT_LENGTH.name:
-          isValid = _this.isExactLength();
+          isValid = _this.isExactLength(val);
           break;
 
         case _config.CONFIG.GREATER_THAN.name:
-          isValid = _this.isGreaterThan();
+          isValid = _this.isGreaterThan(val);
           break;
 
         case _config.CONFIG.GREATER_THAN_EQUAL_TO.name:
-          isValid = _this.isGreaterThanEqualTo();
+          isValid = _this.isGreaterThanEqualTo(val);
           break;
 
         case _config.CONFIG.LESS_THAN.name:
-          isValid = _this.isLessThan();
+          isValid = _this.isLessThan(val);
           break;
 
         case _config.CONFIG.LESS_THAN_EQUAL_TO.name:
-          isValid = _this.isLessThanEqualTo();
+          isValid = _this.isLessThanEqualTo(val);
           break;
 
         case _config.CONFIG.IN_LIST.name:
-          isValid = _this.isInList();
+          isValid = _this.isInList(val);
           break;
 
         case _config.CONFIG.ALPHA.name:

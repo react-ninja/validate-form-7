@@ -56,6 +56,7 @@ var Validator = function Validator() {
           var attrValidation = new _AttrValidation2.default();
           attrValidation.setData(_this.data[key]);
           attrValidation.setPayloadData(_this.data);
+          attrValidation.setPayloadConfig(_this.config);
           attrValidation.setRule(rules);
           attrValidation.setTitle(title);
           attrValidation.validateAttribute();
