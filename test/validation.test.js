@@ -18,10 +18,11 @@ describe('Verify Required Validation', () => {
       _idr: '5bf56a5fc384b83ef6e11071',
     };
     const config = {
-      _id: 'required',
+      _id: { rules: 'required', title: 'ID'}
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The ID field is required.');
   });
 });
 
@@ -39,17 +40,20 @@ describe('Verify Field Match Validation', () => {
     expect(resp.errorsList.length).to.equal(0);
   });
 
-  it('should return required error', () => {
+  it('should return matches error', () => {
     const data = {
       _id: '5bf56a5fc384b83ef6e11071',
       _idx: '5bf56a5fc384b83ef6e11071s',
     };
     const config = {
       _id: { rules: 'required', title: 'ID' },
+      _idr: { rules: 'required', title: 'IDR' },
       _idx: { rules: 'required|matches:_idr', title: 'IDX' },
     };
     const resp = validation(data, config);
-    expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList.length).to.equal(2);
+    expect(resp.errorsList[0]).to.equal('The IDR field is required.');
+    expect(resp.errorsList[1]).to.equal('The IDX field does not match the IDR field.');
   });
 });
 
@@ -65,6 +69,7 @@ describe('Verify Field Differs Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The IDX field must differ from the ID field.');
   });
 
   it('should not return differs error', () => {
@@ -91,6 +96,7 @@ describe('Verify Field Min Length Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must be at least 5 characters in length.');
   });
 
   it('should not return minLength error', () => {
@@ -115,6 +121,7 @@ describe('Verify Field Max Length Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field cannot exceed 3 characters in length.');
   });
 
   it('should not return maxLength error', () => {
@@ -139,6 +146,7 @@ describe('Verify Field Exact Length Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must be exactly 3 characters in length.');
   });
 
   it('should not return exactLength error', () => {
@@ -163,6 +171,7 @@ describe('Verify Field Value for greaterThan Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must contain a number greater than 1235.');
   });
 
   it('should not return greaterThan error', () => {
@@ -200,6 +209,7 @@ describe('Verify Field Value for greaterThanEqualTo Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must contain a number greater than or equal to 1235.');
   });
 });
 
@@ -224,6 +234,7 @@ describe('Verify Field Value for lessThan Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must contain a number less than 1233.');
   });
 });
 
@@ -250,6 +261,7 @@ describe('Verify Field Value for lessThanEqualTo Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must contain a number less than or equal to 1233.');
   });
 });
 
@@ -284,6 +296,7 @@ describe('Verify Field Value for inList Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must be one of: 1,2,3,4,5,6,9.');
   });
 
   it('should return inList error for alpha format', () => {
@@ -340,7 +353,9 @@ describe('Verify Field Value for alphabetic Validation', () => {
       markus: { rules: 'required|alpha', title: 'Markhor' },
     };
     const resp = validation(data, config);
+    console.log(resp.errorsList);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markhor field may only contain alphabetical characters.');
   });
 
 });
@@ -367,6 +382,7 @@ describe('Verify Field Value for alphaNumeric Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field may only contain alpha-numeric characters.');
   });
 
 });
@@ -393,6 +409,7 @@ describe('Verify Field Value for alphaNumericSpaces Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field may only contain alpha-numeric characters and spaces.');
   });
 
 });
@@ -419,6 +436,7 @@ describe('Verify Field Value for alphaDash Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field may only contain alpha-numeric characters, underscores, and dashes.');
   });
 
 });
@@ -447,6 +465,7 @@ describe('Verify Field Value for numeric Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must contain only numbers.');
   });
 
 });
@@ -473,6 +492,7 @@ describe('Verify Field Value for integer Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must contain an integer.');
   });
 
 });
@@ -499,6 +519,7 @@ describe('Verify Field Value for decimal Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must contain a decimal number.');
   });
 
 });
@@ -524,7 +545,9 @@ describe('Verify Field Value for validUrl Validation', () => {
       markus: { rules: 'required|validUrl', title: 'Markus' },
     };
     const resp = validation(data, config);
+    console.log(resp.errorsList);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must contain a valid URL.');
   });
 
 });
@@ -552,6 +575,7 @@ describe('Verify Field Value for validEmail Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must contain a valid email address.');
   });
 
 });
@@ -578,6 +602,7 @@ describe('Verify Field Value for validIP Validation', () => {
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(1);
+    expect(resp.errorsList[0]).to.equal('The Markus field must contain a valid IP.');
   });
 
 });

@@ -1,14 +1,17 @@
 {
   "name": "validate-form-7",
   "author": "Ahsan Bilal",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A comprehensive data validation package that helps to minimize the amount of code you will write",
   "main": "build/index.js",
   "keywords": [
-    "es6",
-    "babel",
-    "eslint",
-    "npm package"
+    "validate",
+    "valiator",
+    "data",
+    "data validation",
+    "form validation",
+    "schema",
+    "schema validation"
   ],
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --recursive",

@@ -1,49 +1,50 @@
-export const FIELD_SHORTCODE = '<FIELD_TITLE>';
+export const FIELD_SHORTCODE = ':attribute';
+export const FIELD_SHORTCODE_2 = ':attribute0';
 export const CONFIG = {
-  REQUIRED: { name: 'required', msg: `${FIELD_SHORTCODE} should be required` },
-  MATCHES: { name: 'matches', msg: `${FIELD_SHORTCODE} should be matches` },
-  DIFFERS: { name: 'differs', msg: `${FIELD_SHORTCODE} should be differs` },
-  MIN_LENGTH: { name: 'minLength', msg: `${FIELD_SHORTCODE} should be minLength` },
-  MAX_LENGTH: { name: 'maxLength', msg: `${FIELD_SHORTCODE} should be maxLength` },
+  REQUIRED: { name: 'required', msg: `The ${FIELD_SHORTCODE} field is required.` },
+  MATCHES: { name: 'matches', msg: `The ${FIELD_SHORTCODE} field does not match the ${FIELD_SHORTCODE_2} field.` },
+  DIFFERS: { name: 'differs', msg: `The ${FIELD_SHORTCODE} field must differ from the ${FIELD_SHORTCODE_2} field.` },
+  MIN_LENGTH: { name: 'minLength', msg: `The ${FIELD_SHORTCODE} field must be at least ${FIELD_SHORTCODE_2} characters in length.` },
+  MAX_LENGTH: { name: 'maxLength', msg: `The ${FIELD_SHORTCODE} field cannot exceed ${FIELD_SHORTCODE_2} characters in length.` },
   EXACT_LENGTH: {
     name: 'exactLength',
-    msg: `${FIELD_SHORTCODE} should be exactLength`,
+    msg: `The ${FIELD_SHORTCODE} field must be exactly ${FIELD_SHORTCODE_2} characters in length.`,
   },
   GREATER_THAN: {
     name: 'greaterThan',
-    msg: `${FIELD_SHORTCODE} should be greaterThan`,
+    msg: `The ${FIELD_SHORTCODE} field must contain a number greater than ${FIELD_SHORTCODE_2}.`,
   },
   GREATER_THAN_EQUAL_TO: {
     name: 'greaterThanEqualTo',
-    msg: `${FIELD_SHORTCODE} should be greaterThanEqualTo`,
+    msg: `The ${FIELD_SHORTCODE} field must contain a number greater than or equal to ${FIELD_SHORTCODE_2}.`,
   },
-  LESS_THAN: { name: 'lessThan', msg: `${FIELD_SHORTCODE} should be lessThan` },
+  LESS_THAN: { name: 'lessThan', msg: `The ${FIELD_SHORTCODE} field must contain a number less than ${FIELD_SHORTCODE_2}.` },
   LESS_THAN_EQUAL_TO: {
     name: 'lessThanEqualTo',
-    msg: `${FIELD_SHORTCODE} should be lessThanEqualTo`,
+    msg: `The ${FIELD_SHORTCODE} field must contain a number less than or equal to ${FIELD_SHORTCODE_2}.`,
   },
-  IN_LIST: { name: 'inList', msg: `${FIELD_SHORTCODE} should be inList` },
-  ALPHA: { name: 'alpha', msg: `${FIELD_SHORTCODE} should be alpha` },
+  IN_LIST: { name: 'inList', msg: `The ${FIELD_SHORTCODE} field must be one of: ${FIELD_SHORTCODE_2}.` },
+  ALPHA: { name: 'alpha', msg: `The ${FIELD_SHORTCODE} field may only contain alphabetical characters.` },
   ALPHA_NUMERIC: {
     name: 'alphaNumeric',
-    msg: `${FIELD_SHORTCODE} should be alphaNumeric`,
+    msg: `The ${FIELD_SHORTCODE} field may only contain alpha-numeric characters.`,
   },
   ALPHA_NUMERIC_SPACES: {
     name: 'alphaNumericSpaces',
-    msg: `${FIELD_SHORTCODE} should be alphaNumericSpaces`,
+    msg: `The ${FIELD_SHORTCODE} field may only contain alpha-numeric characters and spaces.`,
   },
-  ALPHA_DASH: { name: 'alphaDash', msg: `${FIELD_SHORTCODE} should be alphaDash` },
-  NUMERIC: { name: 'numeric', msg: `${FIELD_SHORTCODE} should be numeric` },
-  INTEGER: { name: 'integer', msg: `${FIELD_SHORTCODE} should be integer` },
-  DECIMAL: { name: 'decimal', msg: `${FIELD_SHORTCODE} should be decimal` },
-  VALID_URL: { name: 'validUrl', msg: `${FIELD_SHORTCODE} should be validUrl` },
+  ALPHA_DASH: { name: 'alphaDash', msg: `The ${FIELD_SHORTCODE} field may only contain alpha-numeric characters, underscores, and dashes.` },
+  NUMERIC: { name: 'numeric', msg: `The ${FIELD_SHORTCODE} field must contain only numbers.` },
+  INTEGER: { name: 'integer', msg: `The ${FIELD_SHORTCODE} field must contain an integer.` },
+  DECIMAL: { name: 'decimal', msg: `The ${FIELD_SHORTCODE} field must contain a decimal number.` },
+  VALID_URL: { name: 'validUrl', msg: `The ${FIELD_SHORTCODE} field must contain a valid URL.` },
   VALID_EMAIL: {
     name: 'validEmail',
-    msg: `${FIELD_SHORTCODE} should be validEmail`,
+    msg: `The ${FIELD_SHORTCODE} field must contain a valid email address.`,
   },
-  VALID_IP: { name: 'validIP', msg: `${FIELD_SHORTCODE} should be validIP` },
+  VALID_IP: { name: 'validIP', msg: `The ${FIELD_SHORTCODE} field must contain a valid IP.` },
   VALID_BASE_64: {
     name: 'validBase64',
-    msg: `${FIELD_SHORTCODE} should be validBase64`,
+    msg: `The ${FIELD_SHORTCODE} field must contain a valid Base64 format.`,
   },
 };

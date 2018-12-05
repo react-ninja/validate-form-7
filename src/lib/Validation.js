@@ -38,6 +38,7 @@ class Validator {
           const attrValidation = new AttrValidation();
           attrValidation.setData(this.data[key]);
           attrValidation.setPayloadData(this.data);
+          attrValidation.setPayloadConfig(this.config);
           attrValidation.setRule(rules);
           attrValidation.setTitle(title);
           attrValidation.validateAttribute();

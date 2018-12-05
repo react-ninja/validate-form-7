@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { FIELD_SHORTCODE, CONFIG } from './config.js';
+import { FIELD_SHORTCODE, FIELD_SHORTCODE_2, CONFIG } from './config.js';
 class AttributeValidation {
   errors = [];
   /**
@@ -8,7 +8,7 @@ class AttributeValidation {
   isRequired = () => {
     this.logValidation('isRequired');
     if (typeof this.data === 'undefined') {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -16,14 +16,17 @@ class AttributeValidation {
     Returns FALSE if the form element does not match the one in the parameter.
     Format: matches[form_item]
   */
-  isMatches = () => {
-    const matchKey = this.details;
+  isMatches = (fieldKey) => {
     if (
-      matchKey &&
-      (_.isUndefined(this.payloadData[matchKey]) ||
-        this.payloadData[matchKey] !== this.data)
+      fieldKey &&
+      (_.isUndefined(this.payloadData[fieldKey]) ||
+        this.payloadData[fieldKey] !== this.data)
     ) {
-      this.setErrorMessage(this.ruleName);
+      let fieldName = '';
+      if(this.payloadConfig[fieldKey]){
+        fieldName = this.payloadConfig[fieldKey].title || fieldKey;
+      }
+      this.setErrorMessage(this.ruleName, this.title, fieldName);
     }
   };
 
@@ -31,14 +34,17 @@ class AttributeValidation {
     Returns FALSE if the form element does not differ from the one in the parameter.
     Format: differs[form_item]
   */
-  isDiffers = () => {
-    const matchKey = this.details;
+  isDiffers = (fieldKey) => {
     if (
-      matchKey &&
-      (_.isUndefined(this.payloadData[matchKey]) ||
-        this.payloadData[matchKey] === this.data)
+      fieldKey &&
+      (_.isUndefined(this.payloadData[fieldKey]) ||
+        this.payloadData[fieldKey] === this.data)
     ) {
-      this.setErrorMessage(this.ruleName);
+      let fieldName = '';
+      if(this.payloadConfig[fieldKey]){
+        fieldName = this.payloadConfig[fieldKey].title || fieldKey;
+      }
+      this.setErrorMessage(this.ruleName, this.title, fieldName);
     }
   };
 
@@ -46,10 +52,10 @@ class AttributeValidation {
     Returns FALSE if the form element is shorter than the parameter value.
     Format: min_length[3]
   */
-  isMinLength = () => {
-    const length = parseInt(this.details);
-    if (!(_.isString(this.data) && this.data.length >= length)) {
-      this.setErrorMessage(this.ruleName);
+  isMinLength = (minLength) => {
+    const length = parseInt(minLength);
+    if (!(_.toString(this.data).length >= length)) {
+      this.setErrorMessage(this.ruleName, this.title, minLength);
     }
   };
 
@@ -57,10 +63,10 @@ class AttributeValidation {
     Returns FALSE if the form element is longer than the parameter value.
     Format: max_length[12]
   */
-  isMaxLength = () => {
-    const length = parseInt(this.details);
-    if (!(_.isString(this.data) && this.data.length <= length)) {
-      this.setErrorMessage(this.ruleName);
+  isMaxLength = (maxLength) => {
+    const length = parseInt(maxLength);
+    if (!(_.toString(this.data).length <= length)) {
+      this.setErrorMessage(this.ruleName, this.title, maxLength);
     }
   };
 
@@ -68,10 +74,10 @@ class AttributeValidation {
     Returns FALSE if the form element is not exactly the parameter value.
     Format: exact_length[8]
   */
-  isExactLength = () => {
-    const length = parseInt(this.details);
-    if (!(_.isString(this.data) && this.data.length === length)) {
-      this.setErrorMessage(this.ruleName);
+  isExactLength = (exactLength) => {
+    const length = parseInt(exactLength);
+    if (!(_.toString(this.data).length === length)) {
+      this.setErrorMessage(this.ruleName, this.title, exactLength);
     }
   };
   /**
@@ -79,10 +85,9 @@ class AttributeValidation {
     value or not numeric.
     Format: greaterThan[8]
   */
-  isGreaterThan = () => {
-    const value = parseInt(this.details);
-    if (!(_.isNumber(this.data) && this.data > value)) {
-      this.setErrorMessage(this.ruleName);
+  isGreaterThan = (value) => {
+    if (!(_.isNumber(this.data) && this.data > parseInt(value))) {
+      this.setErrorMessage(this.ruleName, this.title, value);
     }
   };
 
@@ -90,10 +95,9 @@ class AttributeValidation {
     Returns FALSE if the form element is less than the parameter value, or not numeric.
     Format: greaterThan_equalTo[8]
   */
-  isGreaterThanEqualTo = () => {
-    const value = parseInt(this.details);
-    if (!(_.isNumber(this.data) && this.data >= value)) {
-      this.setErrorMessage(this.ruleName);
+  isGreaterThanEqualTo = (value) => {
+    if (!(_.isNumber(this.data) && this.data >= parseInt(value))) {
+      this.setErrorMessage(this.ruleName, this.title, value);
     }
   };
 
@@ -101,10 +105,9 @@ class AttributeValidation {
     Returns FALSE if the form element is greater than or equal to the parameter value or not numeric.
     Format: lessThan[8]
   */
-  isLessThan = () => {
-    const value = parseInt(this.details);
-    if (!(_.isNumber(this.data) && this.data < value)) {
-      this.setErrorMessage(this.ruleName);
+  isLessThan = (value) => {
+    if (!(_.isNumber(this.data) && this.data < parseInt(value))) {
+      this.setErrorMessage(this.ruleName, this.title, value);
     }
   };
 
@@ -112,10 +115,9 @@ class AttributeValidation {
     Returns FALSE if the form element is greater than the parameter value, or not numeric.
     Format: lessThan_equalTo[8]
   */
-  isLessThanEqualTo = () => {
-    const value = parseInt(this.details);
-    if (!(_.isNumber(this.data) && this.data <= value)) {
-      this.setErrorMessage(this.ruleName);
+  isLessThanEqualTo = (value) => {
+    if (!(_.isNumber(this.data) && this.data <= parseInt(value))) {
+      this.setErrorMessage(this.ruleName, this.title, value);
     }
   };
 
@@ -123,8 +125,8 @@ class AttributeValidation {
     Returns FALSE if the form element is not within a predetermined list.
     in_list[red,blue,green]
   */
-  isInList = () => {
-    let values = _.split(this.details, ',');
+  isInList = (items) => {
+    let values = _.split(items, ',');
     if (_.isNumber(this.data)) {
       _.map(values, (val, key) => {
         values[key] = _.toNumber(val);
@@ -132,7 +134,7 @@ class AttributeValidation {
       values = _.compact(values);
     }
     if (!_.includes(values, this.data)) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title, items);
     }
   };
 
@@ -144,7 +146,7 @@ class AttributeValidation {
     const regEx = /^\s*([a-zA-Z]+)\s*$/i;
     const isValid = regEx.test(this.data);
     if (!isValid) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -156,7 +158,7 @@ class AttributeValidation {
     const regEx = /^\s*([0-9a-zA-Z]+)\s*$/i;
     const isValid = regEx.test(this.data);
     if (!isValid) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -169,7 +171,7 @@ class AttributeValidation {
     const regEx = /^\s*([0-9a-zA-Z\s]+)\s*$/i;
     const isValid = regEx.test(this.data);
     if (!isValid) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -181,7 +183,7 @@ class AttributeValidation {
     const regEx = /^\s*([0-9a-zA-Z-_]+)\s*$/i;
     const isValid = regEx.test(this.data);
     if (!isValid) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -192,7 +194,7 @@ class AttributeValidation {
   isNumeric = () => {
     const data = _.toNumber(this.data);
     if (_.isNaN(data)) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -202,7 +204,7 @@ class AttributeValidation {
   */
   isInteger = () => {
     if (!_.isInteger(this.data)) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -212,7 +214,7 @@ class AttributeValidation {
   */
   isDecimal = () => {
     if (!(_.isNumber(this.data) && this.data !== Math.floor(this.data))) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -222,7 +224,7 @@ class AttributeValidation {
   isValidURL = () => {
     const regexp = /((http|https):\/\/)?[A-Za-z0-9\.-]{3,}\.[A-Za-z]{2}/;
     if (!(this.data.indexOf(' ') < 0 && regexp.test(this.data))) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -232,7 +234,7 @@ class AttributeValidation {
   isValidEmail = () => {
     const regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!regexp.test(this.data)) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -243,7 +245,7 @@ class AttributeValidation {
   isValidIP = () => {
     const regexp = /^(?:(?:2[0-4]\d|25[0-5]|1\d{2}|[1-9]?\d)\.){3}(?:2[0-4]\d|25[0-5]|1\d{2}|[1-9]?\d)$/;
     if (!regexp.test(this.data)) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -254,7 +256,7 @@ class AttributeValidation {
   isValidBase64 = () => {
     const regexp = /^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
     if (!regexp.test(this.data)) {
-      this.setErrorMessage(this.ruleName);
+      this.setErrorMessage(this.ruleName, this.title);
     }
   };
 
@@ -270,6 +272,10 @@ class AttributeValidation {
     this.payloadData = data;
   };
 
+  setPayloadConfig = (config) => {
+    this.payloadConfig = config;
+  };
+
   setRule = (rules) => {
     this.rules = _.split(rules, '|');
   };
@@ -278,10 +284,11 @@ class AttributeValidation {
     this.title = title;
   };
 
-  setErrorMessage = (rule) => {
+  setErrorMessage = (rule, title = '', attribute = '') => {
     const config = _.find(CONFIG, (val) => rule === val.name);
     if (config) {
-      const msg = _.replace(config.msg, FIELD_SHORTCODE, this.title);
+      let msg = _.replace(config.msg, FIELD_SHORTCODE, title);
+      msg = _.replace(msg, FIELD_SHORTCODE_2, attribute);
       this.errors.push(msg);
     }
   };
@@ -291,50 +298,50 @@ class AttributeValidation {
       let isValid = true;
       const config = _.split(rule, ':');
       this.ruleName = config[0];
-      this.details = config[1] || null;
+      const val = config[1] || null;
       switch (this.ruleName) {
         case CONFIG.REQUIRED.name:
           isValid = this.isRequired();
           break;
 
         case CONFIG.MATCHES.name:
-          isValid = this.isMatches();
+          isValid = this.isMatches(val);
           break;
 
         case CONFIG.DIFFERS.name:
-          isValid = this.isDiffers();
+          isValid = this.isDiffers(val);
           break;
 
         case CONFIG.MIN_LENGTH.name:
-          isValid = this.isMinLength();
+          isValid = this.isMinLength(val);
           break;
 
         case CONFIG.MAX_LENGTH.name:
-          isValid = this.isMaxLength();
+          isValid = this.isMaxLength(val);
           break;
 
         case CONFIG.EXACT_LENGTH.name:
-          isValid = this.isExactLength();
+          isValid = this.isExactLength(val);
           break;
 
         case CONFIG.GREATER_THAN.name:
-          isValid = this.isGreaterThan();
+          isValid = this.isGreaterThan(val);
           break;
 
         case CONFIG.GREATER_THAN_EQUAL_TO.name:
-          isValid = this.isGreaterThanEqualTo();
+          isValid = this.isGreaterThanEqualTo(val);
           break;
 
         case CONFIG.LESS_THAN.name:
-          isValid = this.isLessThan();
+          isValid = this.isLessThan(val);
           break;
 
         case CONFIG.LESS_THAN_EQUAL_TO.name:
-          isValid = this.isLessThanEqualTo();
+          isValid = this.isLessThanEqualTo(val);
           break;
 
         case CONFIG.IN_LIST.name:
-          isValid = this.isInList();
+          isValid = this.isInList(val);
           break;
 
         case CONFIG.ALPHA.name:
