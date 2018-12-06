@@ -1,7 +1,7 @@
 {
   "name": "validate-form-7",
   "author": "Ahsan Bilal",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A comprehensive data validation package that helps to minimize the amount of code you will write",
   "main": "build/index.js",
   "keywords": [
