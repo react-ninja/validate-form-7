@@ -7,7 +7,7 @@ class AttributeValidation {
   */
   isRequired = () => {
     this.logValidation('isRequired');
-    if (typeof this.data === 'undefined') {
+    if (!(typeof this.data !== 'undefined' && _.trim(_.toString(this.data)).length > 0)) {
       this.setErrorMessage(this.ruleName, this.title);
     }
   };

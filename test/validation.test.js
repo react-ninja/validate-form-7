@@ -5,9 +5,11 @@ describe('Verify Required Validation', () => {
   it('should not return required error', () => {
     const data = {
       _id: '5bf56a5fc384b83ef6e11071',
+      _phils: '22',
     };
     const config = {
       _id: 'required',
+      _phils: { rules: 'required', title: 'Phils'}
     };
     const resp = validation(data, config);
     expect(resp.errorsList.length).to.equal(0);
@@ -16,13 +18,16 @@ describe('Verify Required Validation', () => {
   it('should return required error', () => {
     const data = {
       _idr: '5bf56a5fc384b83ef6e11071',
+      _phils: '',
     };
     const config = {
-      _id: { rules: 'required', title: 'ID'}
+      _id: 'required',
+      _phils: { rules: 'required', title: 'Phils'}
     };
     const resp = validation(data, config);
-    expect(resp.errorsList.length).to.equal(1);
-    expect(resp.errorsList[0]).to.equal('The ID field is required.');
+    expect(resp.errorsList.length).to.equal(2);
+    expect(resp.errorsList[0]).to.equal('The _id field is required.');
+    expect(resp.errorsList[1]).to.equal('The Phils field is required.');
   });
 });
 
@@ -545,7 +550,6 @@ describe('Verify Field Value for validUrl Validation', () => {
       markus: { rules: 'required|validUrl', title: 'Markus' },
     };
     const resp = validation(data, config);
-    console.log(resp.errorsList);
     expect(resp.errorsList.length).to.equal(1);
     expect(resp.errorsList[0]).to.equal('The Markus field must contain a valid URL.');
   });

@@ -14,6 +14,8 @@ const config = {
 const resp = validation(data, config);
 ```
 
+[Click here to see more examples](https://github.com/react-ninja/validate-form-7/blob/master/test/validation.test.js)
+
 ### Config Reference
 
 |Attribute|Required|Description|Example|
