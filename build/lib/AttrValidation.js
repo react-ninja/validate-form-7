@@ -23,7 +23,7 @@ var AttributeValidation = function AttributeValidation() {
 
   this.isRequired = function () {
     _this.logValidation('isRequired');
-    if (typeof _this.data === 'undefined') {
+    if (!(typeof _this.data !== 'undefined' && _lodash2.default.trim(_lodash2.default.toString(_this.data)).length > 0)) {
       _this.setErrorMessage(_this.ruleName, _this.title);
     }
   };
@@ -70,25 +70,25 @@ var AttributeValidation = function AttributeValidation() {
   };
 
   this.isGreaterThan = function (value) {
-    if (!(_lodash2.default.isNumber(_this.data) && _this.data > parseInt(value))) {
+    if (!(_this.data && _lodash2.default.toNumber(_this.data) > parseInt(value))) {
       _this.setErrorMessage(_this.ruleName, _this.title, value);
     }
   };
 
   this.isGreaterThanEqualTo = function (value) {
-    if (!(_lodash2.default.isNumber(_this.data) && _this.data >= parseInt(value))) {
+    if (!(_this.data && _lodash2.default.toNumber(_this.data) >= parseInt(value))) {
       _this.setErrorMessage(_this.ruleName, _this.title, value);
     }
   };
 
   this.isLessThan = function (value) {
-    if (!(_lodash2.default.isNumber(_this.data) && _this.data < parseInt(value))) {
+    if (!(_this.data && _lodash2.default.toNumber(_this.data) < parseInt(value))) {
       _this.setErrorMessage(_this.ruleName, _this.title, value);
     }
   };
 
   this.isLessThanEqualTo = function (value) {
-    if (!(_lodash2.default.isNumber(_this.data) && _this.data <= parseInt(value))) {
+    if (!(_this.data && _lodash2.default.toNumber(_this.data) <= parseInt(value))) {
       _this.setErrorMessage(_this.ruleName, _this.title, value);
     }
   };
@@ -219,6 +219,7 @@ var AttributeValidation = function AttributeValidation() {
     if (config) {
       var msg = _lodash2.default.replace(config.msg, _config.FIELD_SHORTCODE, title);
       msg = _lodash2.default.replace(msg, _config.FIELD_SHORTCODE_2, attribute);
+      msg = _lodash2.default.replace(msg, '  ', '');
       _this.errors.push(msg);
     }
   };

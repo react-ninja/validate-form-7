@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.validate = undefined;
+exports.validateEntity = exports.validate = undefined;
 
 var _lodash = require('lodash');
 
@@ -80,7 +80,7 @@ var Validator = function Validator() {
     return {
       errorsList: _this.getErrorsList(),
       errors: _this.errors,
-      count: _this.errors.length,
+      count: _this.getErrorsList().length,
       data: _this.data,
       config: _this.config
     };
@@ -93,5 +93,22 @@ var validate = exports.validate = function validate(data, config) {
   validator.setConfig(config);
   validator.run();
 
+  return validator.getReport();
+};
+
+var validateEntity = exports.validateEntity = function validateEntity(data, config) {
+  var title = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ' ';
+
+  var validator = new Validator();
+  data = {
+    __validateField: data
+  };
+  config = {
+    __validateField: { rules: config, title: title }
+  };
+
+  validator.setData(data);
+  validator.setConfig(config);
+  validator.run();
   return validator.getReport();
 };
