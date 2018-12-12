@@ -3,6 +3,8 @@ Validate Form 7 provides a comprehensive data validation that helps minimize the
 
 #### Example
 ```
+import validation from 'validate-form-7';
+
 const data = {
       _id: '5bf56a5fc384b83ef6e11071',
       _idx: '5bf56a5fc384b83ef6e11071',
@@ -14,7 +16,16 @@ const config = {
 const resp = validation(data, config);
 ```
 
-[Click here to see more examples](https://github.com/react-ninja/validate-form-7/blob/master/test/validation.test.js)
+##### To validate a single entity
+```
+import { validateEntity } from 'validate-form-7';
+
+const data = '27';
+const rules = 'minLength:33|maxLength:100';
+const title = 'Marks';
+const resp = validation(data, rules, title);
+```
+
 
 ### Config Reference
 
@@ -44,6 +55,8 @@ errorsList attribute provides the array of error messages of all invalid field(s
 
 ##### Example
 ```
+import validation from 'validate-form-7';
+
 const data = {
       ryan: 'this is ryan',
       markhor: 'this is markhor',
@@ -102,3 +115,5 @@ The following is a list of all the native rules that are available to use:
 |**validUrl**|No|Returns FALSE if the form element does not contain a valid URL.||
 |**validEmail**|No|Returns FALSE if the form element does not contain a valid email address.||
 |**validIP**|Yes|Returns FALSE if the supplied IP address is not valid. Accepts an optional parameter of ‘ipv4’ to specify an IP format.||
+
+[Click here to see the examples](https://github.com/react-ninja/validate-form-7/blob/master/test/validation.test.js)

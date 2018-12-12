@@ -86,7 +86,7 @@ class AttributeValidation {
     Format: greaterThan[8]
   */
   isGreaterThan = (value) => {
-    if (!(_.isNumber(this.data) && this.data > parseInt(value))) {
+    if (!(this.data && _.toNumber(this.data) > parseInt(value))) {
       this.setErrorMessage(this.ruleName, this.title, value);
     }
   };
@@ -96,7 +96,7 @@ class AttributeValidation {
     Format: greaterThan_equalTo[8]
   */
   isGreaterThanEqualTo = (value) => {
-    if (!(_.isNumber(this.data) && this.data >= parseInt(value))) {
+    if (!(this.data && _.toNumber(this.data) >= parseInt(value))) {
       this.setErrorMessage(this.ruleName, this.title, value);
     }
   };
@@ -106,7 +106,7 @@ class AttributeValidation {
     Format: lessThan[8]
   */
   isLessThan = (value) => {
-    if (!(_.isNumber(this.data) && this.data < parseInt(value))) {
+    if (!(this.data && _.toNumber(this.data) < parseInt(value))) {
       this.setErrorMessage(this.ruleName, this.title, value);
     }
   };
@@ -116,7 +116,7 @@ class AttributeValidation {
     Format: lessThan_equalTo[8]
   */
   isLessThanEqualTo = (value) => {
-    if (!(_.isNumber(this.data) && this.data <= parseInt(value))) {
+    if (!(this.data && _.toNumber(this.data) <= parseInt(value))) {
       this.setErrorMessage(this.ruleName, this.title, value);
     }
   };
@@ -289,6 +289,7 @@ class AttributeValidation {
     if (config) {
       let msg = _.replace(config.msg, FIELD_SHORTCODE, title);
       msg = _.replace(msg, FIELD_SHORTCODE_2, attribute);
+      msg = _.replace(msg, '  ', '');
       this.errors.push(msg);
     }
   };

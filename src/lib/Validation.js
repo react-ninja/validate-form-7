@@ -62,7 +62,7 @@ class Validator {
     return {
       errorsList: this.getErrorsList(),
       errors: this.errors,
-      count: this.errors.length,
+      count: this.getErrorsList().length,
       data: this.data,
       config: this.config,
     };
@@ -75,5 +75,20 @@ export const validate = (data, config) => {
   validator.setConfig(config);
   validator.run();
 
+  return validator.getReport();
+};
+
+export const validateEntity = (data, config, title = ' ') => {
+  const validator = new Validator();
+  data = {
+    __validateField: data
+  };
+  config = {
+    __validateField: { rules: config, title}
+  }
+
+  validator.setData(data);
+  validator.setConfig(config);
+  validator.run();
   return validator.getReport();
 };
